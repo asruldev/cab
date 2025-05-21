@@ -16,6 +16,17 @@ func New(u domain.AuthUsecase) *AuthHandler {
 	return &AuthHandler{usecase: u}
 }
 
+// Login godoc
+// @Summary User login
+// @Description Authenticate user and return token
+// @Tags auth
+// @Accept json
+// @Produce json
+// @Param loginRequest body dto.LoginRequest true "Login data"
+// @Success 200 {object} dto.LoginResponse
+// @Failure 400 {object} dto.ErrorResponse "Bad request"
+// @Failure 401 {object} dto.ErrorResponse "Unauthorized"
+// @Router /login [post]
 func (h *AuthHandler) Login(w http.ResponseWriter, r *http.Request) {
 	if r.Method != http.MethodPost {
 		http.Error(w, "Method Not Allowed", http.StatusMethodNotAllowed)
@@ -42,6 +53,16 @@ func (h *AuthHandler) Login(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(resp)
 }
 
+// Register godoc
+// @Summary Register new user
+// @Description Register user with email and password
+// @Tags auth
+// @Accept json
+// @Produce json
+// @Param registerRequest body dto.RegisterRequest true "Register data"
+// @Success 201 {object} dto.RegisterResponse
+// @Failure 400 {object} dto.ErrorResponse "Bad request"
+// @Router /register [post]
 func (h *AuthHandler) Register(w http.ResponseWriter, r *http.Request) {
 	if r.Method != http.MethodPost {
 		http.Error(w, "Method Not Allowed", http.StatusMethodNotAllowed)

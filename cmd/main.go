@@ -9,6 +9,15 @@ import (
 	"github.com/asruldev/cab/pkg/config"
 )
 
+// Package main Cab API.
+//
+// @title Cab API
+// @version 1.0
+// @description This is a sample server for Cab API.
+//
+// @securityDefinitions.apikey BearerAuth
+// @in header
+// @name Authorization
 func main() {
 	config.LoadEnv()
 	r := server.SetupRouter()

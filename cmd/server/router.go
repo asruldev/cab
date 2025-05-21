@@ -3,6 +3,9 @@ package server
 import (
 	"net/http"
 
+	_ "github.com/asruldev/cab/docs"
+	httpSwagger "github.com/swaggo/http-swagger"
+
 	"github.com/asruldev/cab/pkg/config"
 	"github.com/asruldev/cab/pkg/middleware"
 	"github.com/asruldev/cab/pkg/utils"
@@ -24,6 +27,14 @@ func SetupRouter() *http.ServeMux {
 	mux.HandleFunc("/login", handler.Login)
 	mux.HandleFunc("/register", handler.Register)
 
+	// Protected godoc
+	// @Summary Protected route
+	// @Description Requires valid JWT Bearer token
+	// @Tags protected
+	// @Security BearerAuth
+	// @Success 200 {string} string "Welcome message"
+	// @Failure 401 {object} dto.ErrorResponse
+	// @Router /protected [get]
 	mux.Handle("/protected", middleware.AuthMiddleware(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		claims, ok := r.Context().Value(middleware.UserContextKey).(*utils.Claims)
 		if !ok {
@@ -33,6 +44,8 @@ func SetupRouter() *http.ServeMux {
 
 		w.Write([]byte("Welcome user: " + claims.Email))
 	})))
+
+	mux.Handle("/swagger/", httpSwagger.WrapHandler)
 
 	return mux
 }

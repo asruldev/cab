@@ -148,3 +148,7 @@ Tanpa menggunakan framework DI seperti di Java/Spring, karena Go lebih mengutama
 4. **Maintainable**: mudah dirawat dan scalable untuk tim besar.
 
 ---
+go install github.com/swaggo/swag/cmd/swag@latest
+
+lakukan ini jika komentar sudah lengkap
+swag init -g cmd/main.go --output docs

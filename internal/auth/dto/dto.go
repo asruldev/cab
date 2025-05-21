@@ -18,3 +18,7 @@ type RegisterRequest struct {
 type RegisterResponse struct {
 	User string `json:"email"`
 }
+
+type ErrorResponse struct {
+	Message string `json:"message" example:"error message"`
+}

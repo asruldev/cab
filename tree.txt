@@ -1,0 +1,39 @@
+.
+├── .DS_Store
+├── .env
+├── .env_example
+├── .gitignore
+├── README.md
+├── cmd
+│   ├── .DS_Store
+│   ├── main.go
+│   └── server
+│       └── router.go
+├── go.mod
+├── go.sum
+├── internal
+│   ├── auth
+│   │   ├── delivery
+│   │   │   └── http
+│   │   │       └── handler.go
+│   │   ├── domain
+│   │   │   └── model.go
+│   │   ├── dto
+│   │   │   └── dto.go
+│   │   ├── repository
+│   │   │   └── postgres_repo.go
+│   │   └── usecase
+│   │       └── usecase.go
+│   └── employee
+├── pkg
+│   ├── config
+│   │   ├── config.go
+│   │   └── db.go
+│   ├── logger
+│   ├── middleware
+│   └── utils
+├── sql
+│   └── user.sql
+└── tree.txt
+
+18 directories, 19 files

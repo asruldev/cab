@@ -31,3 +31,27 @@ func (u *AuthUsecase) Login(email, password string) (string, string, error) {
 
 	return token, refreshToken, nil
 }
+
+func (u *AuthUsecase) Register(email string, password string) (token string, refreshToken string, err error) {
+	// Cek apakah user sudah ada
+	_, err = u.repo.FindByEmail(email)
+	if err == nil {
+		return "", "", errors.New("user already exists")
+	}
+
+	// Buat user baru
+	newUser := &domain.User{
+		Email:    email,
+		Password: password, // Note: Jangan plaintext di produksi
+	}
+
+	// Simpan user
+	if err := u.repo.CreateUser(newUser); err != nil {
+		return "", "", err
+	}
+
+	// Generate token dummy
+	token = "dummy_access_token_abc123"
+	refreshToken = "dummy_refresh_token_xyz789"
+	return token, refreshToken, nil
+}

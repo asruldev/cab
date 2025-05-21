@@ -8,8 +8,10 @@ type User struct {
 
 type AuthRepository interface {
 	FindByEmail(email string) (*User, error)
+	CreateUser(user *User) error // ini digunakan pada repo
 }
 
 type AuthUsecase interface {
 	Login(email, password string) (token string, refreshToken string, err error)
+	Register(email, password string) (token string, refreshToken string, err error)
 }

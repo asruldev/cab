@@ -23,5 +23,6 @@ func SetupRouter() *http.ServeMux {
 	handler := authDelivery.New(uc)
 
 	mux.HandleFunc("/login", handler.Login)
+	mux.HandleFunc("/register", handler.Register)
 	return mux
 }

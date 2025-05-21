@@ -16,4 +16,10 @@ curl -X POST http://localhost:8080/register \
     "email": "user@example.com",
     "password": "secret123"
   }'
-  ```
+```
+
+## Protected
+```bash
+curl -X GET http://localhost:8080/protected \
+  -H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6"
+```

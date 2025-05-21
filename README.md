@@ -148,7 +148,41 @@ Tanpa menggunakan framework DI seperti di Java/Spring, karena Go lebih mengutama
 4. **Maintainable**: mudah dirawat dan scalable untuk tim besar.
 
 ---
+
+## Swagger
+Install Global
+```
 go install github.com/swaggo/swag/cmd/swag@latest
+```
 
 lakukan ini jika komentar sudah lengkap
+```
 swag init -g cmd/main.go --output docs
+```
+
+## Mock
+Install global
+```
+go install go.uber.org/mock/mockgen@latest
+```
+
+generate mock usecase
+```bash
+mockgen -source=internal/auth/domain/model.go -destination=internal/auth/mocks/mock_usecase.go -package=mocks
+```
+
+Terus buat unit test
+```
+auth/delivery/http/handler_test.go
+```
+
+Jika interface diubah, generate ulang
+```
+mockgen -source=internal/auth/domain/model.go -destination=internal/auth/mocks/mock_usecase.go -package=mocks
+```
+
+Jalankan test
+```
+go test -v ./internal/auth/delivery/http
+```
+

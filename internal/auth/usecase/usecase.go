@@ -4,6 +4,7 @@ import (
 	"errors"
 
 	"github.com/asruldev/cab/internal/auth/domain"
+	"github.com/asruldev/cab/pkg/utils"
 )
 
 type AuthUsecase struct {
@@ -20,38 +21,48 @@ func (u *AuthUsecase) Login(email, password string) (string, string, error) {
 		return "", "", errors.New("invalid credentials")
 	}
 
-	// Cek password sederhana (jangan di prod pakai ini)
-	if user.Password != password {
+	// Cek password pakai bcrypt hash
+	if !utils.CheckPasswordHash(password, user.Password) {
 		return "", "", errors.New("invalid credentials")
 	}
 
-	// Generate token dummy (ganti dengan JWT di produksi)
-	token := "dummy_access_token_abc123"
-	refreshToken := "dummy_refresh_token_xyz789"
+	// Generate JWT access dan refresh token
+	token, err := utils.GenerateAccessToken(user.ID, user.Email)
+	if err != nil {
+		return "", "", err
+	}
+
+	refreshToken, err := utils.GenerateRefreshToken(user.ID, user.Email)
+	if err != nil {
+		return "", "", err
+	}
 
 	return token, refreshToken, nil
 }
 
-func (u *AuthUsecase) Register(email string, password string) (token string, refreshToken string, err error) {
+func (u *AuthUsecase) Register(email string, password string) (usr string, err error) {
 	// Cek apakah user sudah ada
 	_, err = u.repo.FindByEmail(email)
 	if err == nil {
-		return "", "", errors.New("user already exists")
+		return "", errors.New("user already exists")
 	}
 
-	// Buat user baru
+	// Hash password
+	hashedPassword, err := utils.HashPassword(password)
+	if err != nil {
+		return "", errors.New("failed to hash password")
+	}
+
+	// Buat user baru dengan password sudah di-hash
 	newUser := &domain.User{
 		Email:    email,
-		Password: password, // Note: Jangan plaintext di produksi
+		Password: hashedPassword,
 	}
 
 	// Simpan user
 	if err := u.repo.CreateUser(newUser); err != nil {
-		return "", "", err
+		return "", err
 	}
 
-	// Generate token dummy
-	token = "dummy_access_token_abc123"
-	refreshToken = "dummy_refresh_token_xyz789"
-	return token, refreshToken, nil
+	return newUser.Email, nil
 }

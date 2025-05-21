@@ -16,6 +16,5 @@ type RegisterRequest struct {
 }
 
 type RegisterResponse struct {
-	Token        string `json:"token"`
-	RefreshToken string `json:"refresh_token"`
+	User string `json:"email"`
 }

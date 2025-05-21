@@ -6,9 +6,11 @@ import (
 	"net/http"
 
 	"github.com/asruldev/cab/cmd/server"
+	"github.com/asruldev/cab/pkg/config"
 )
 
 func main() {
+	config.LoadEnv()
 	r := server.SetupRouter()
 
 	fmt.Println("Server running at http://localhost:8080")

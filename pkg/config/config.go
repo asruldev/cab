@@ -21,3 +21,19 @@ func GetDBDSN() string {
 	}
 	return dsn
 }
+
+func GetJWTKEY() string {
+	jwt_key := os.Getenv("JWT_KEY")
+	if jwt_key == "" {
+		log.Fatal("JWT_KEY not set in environment")
+	}
+	return jwt_key
+}
+
+func GetAPPUSER() string {
+	jwt_key := os.Getenv("APP_USER")
+	if jwt_key == "" {
+		log.Fatal("APP_USER not set in environment")
+	}
+	return jwt_key
+}

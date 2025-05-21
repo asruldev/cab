@@ -54,15 +54,14 @@ func (h *AuthHandler) Register(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	token, refreshToken, err := h.usecase.Register(req.Email, req.Password)
+	usr, err := h.usecase.Register(req.Email, req.Password)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusBadRequest)
 		return
 	}
 
 	resp := dto.RegisterResponse{
-		Token:        token,
-		RefreshToken: refreshToken,
+		User: usr,
 	}
 
 	w.Header().Set("Content-Type", "application/json")

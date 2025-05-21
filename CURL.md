@@ -5,7 +5,7 @@ My Curl
 ```bash
 curl -X POST http://localhost:8080/login \
 -H "Content-Type: application/json" \
--d '{"email":"me@asrul.dev","password":"123456"}'
+-d '{"email":"user@example.com","password":"secret123"}'
 ```
 
 ## Register

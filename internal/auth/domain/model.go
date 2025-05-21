@@ -13,5 +13,5 @@ type AuthRepository interface {
 
 type AuthUsecase interface {
 	Login(email, password string) (token string, refreshToken string, err error)
-	Register(email, password string) (token string, refreshToken string, err error)
+	Register(email, password string) (usr string, err error)
 }

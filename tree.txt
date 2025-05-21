@@ -1,11 +1,7 @@
 .
-├── .DS_Store
-├── .env
-├── .env_example
-├── .gitignore
+├── CURL.md
 ├── README.md
 ├── cmd
-│   ├── .DS_Store
 │   ├── main.go
 │   └── server
 │       └── router.go
@@ -32,8 +28,10 @@
 │   ├── logger
 │   ├── middleware
 │   └── utils
+│       ├── hash.go
+│       └── jwt.go
 ├── sql
 │   └── user.sql
 └── tree.txt
 
-18 directories, 19 files
+18 directories, 17 files

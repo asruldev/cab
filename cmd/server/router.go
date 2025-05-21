@@ -13,9 +13,6 @@ import (
 func SetupRouter() *http.ServeMux {
 	mux := http.NewServeMux()
 
-	// Load .env dulu
-	config.LoadEnv()
-
 	db := config.ConnectPostgres()
 
 	repo := authRepo.NewPostgresRepo(db)

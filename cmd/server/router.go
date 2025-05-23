@@ -6,26 +6,18 @@ import (
 	_ "github.com/asruldev/cab/docs"
 	httpSwagger "github.com/swaggo/http-swagger"
 
-	"github.com/asruldev/cab/pkg/config"
 	"github.com/asruldev/cab/pkg/middleware"
 	"github.com/asruldev/cab/pkg/utils"
 
-	authDelivery "github.com/asruldev/cab/internal/auth/delivery/http"
-	authRepo "github.com/asruldev/cab/internal/auth/repository"
-	authUsecase "github.com/asruldev/cab/internal/auth/usecase"
+	authHttp "github.com/asruldev/cab/internal/auth/delivery/http"
+	userHttp "github.com/asruldev/cab/internal/user/delivery/http"
 )
 
 func SetupRouter() *http.ServeMux {
 	mux := http.NewServeMux()
 
-	db := config.ConnectPostgres()
-
-	repo := authRepo.NewPostgresRepo(db)
-	uc := authUsecase.New(repo)
-	handler := authDelivery.New(uc)
-
-	mux.HandleFunc("/login", handler.Login)
-	mux.HandleFunc("/register", handler.Register)
+	authHttp.Route(mux)
+	userHttp.Route(mux)
 
 	// Protected godoc
 	// @Summary Protected route
@@ -44,6 +36,12 @@ func SetupRouter() *http.ServeMux {
 
 		w.Write([]byte("Welcome user: " + claims.Email))
 	})))
+
+	mux.Handle("/", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		w.Header().Set("Content-Type", "application/json")
+		w.WriteHeader(http.StatusOK)
+		w.Write([]byte(`{"message": "pong"}`))
+	}))
 
 	mux.Handle("/swagger/", httpSwagger.WrapHandler)
 

@@ -7,10 +7,13 @@ import (
 	"github.com/asruldev/cab/pkg/utils"
 )
 
+// Struct ini menyimpan repo yang merupakan implementasi dari interface AuthRepository. Tujuannya adalah agar AuthUsecase bisa ambil data user dari database melalui kontrak/interface, bukan langsung akses database.
 type AuthUsecase struct {
 	repo domain.AuthRepository
 }
 
+// Fungsi ini adalah constructor: digunakan untuk membuat objek AuthUsecase dan mengisi dependensinya (di sini repo).
+// Mengembalikan domain.AuthUsecase, bukan *AuthUsecase, supaya lebih modular dan fleksibel.
 func New(repo domain.AuthRepository) domain.AuthUsecase {
 	return &AuthUsecase{repo: repo}
 }
